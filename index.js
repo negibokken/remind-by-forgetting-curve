@@ -37,7 +37,7 @@ const octokit = new Octokit({auth: token});
             dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
         console.log(d, time)
         if (d === time) {
-          const repoparts = (repo.split('/'));
+          const repoparts = (issue.repo.split('/'));
           const n = repoparts.length;
           const ownerName = repoparts[n - 1];
           const repoName = repoparts[n - 2];
