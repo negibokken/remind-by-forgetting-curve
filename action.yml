@@ -1,6 +1,10 @@
 name: 'Remind by forgetting curve'
 description: 'Remind by forgetting curve'
 inputs:
+  repo-token:
+    description: 'repo token'
+    required:tru
+    default: ''
   labels:
     description: 'labels to remind'
     required: false

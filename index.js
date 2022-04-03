@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const {Octokit} = require('@octokit/rest');
 const {parseStringAsArray, fillByDefault} = require('./lib/array-utils')
+const dayjs = require('dayjs')
 
 const defaultRemindDays = [1, 3, 10, 30, 90];
 const defaultMessage = 'It\' s time to remember this issue!';
@@ -15,11 +16,12 @@ const octokit = new Octokit({auth: token});
         parseStringAsArray(core.getInput('labels')), ['need-to-remind']);
     const remindDays = fillByDefault(
         parseStringAsArray(core.getInput('remind-days')), defaultRemindDays);
-    const time = (new Date()).toTimeString();
+    const time = dayjs().format('YYYY-MM-DD')
     const message = core.getInput('message') || defaultMessage;
     const labelsSet = new Set(labels);
     const issues = await octokit.paginate(
         octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
+
     const targetIssues = issues.filter((i) => {
       for (const label of i.labels) {
         if (labelsSet.has(label.name)) {
@@ -28,6 +30,19 @@ const octokit = new Octokit({auth: token});
       }
       return false;
     });
+
+
+
+    for (const issue of targetIssues) {
+      for (const remindDay of remindDays) {
+        const d =
+            dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
+        if (d === time) {
+          console.log('Remind target issue')
+        }
+      }
+    }
+
     console.log(targetIssues)
     console.log(`${time} ${message}`)
     console.log(`${labels}`)
