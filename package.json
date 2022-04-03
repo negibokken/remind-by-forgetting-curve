@@ -1,0 +1,12 @@
+{
+  "name": "remind-by-forgetting-curve",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "ssh://git@github.com/negibokken/remind-by-forgetting-curve.git",
+  "author": "Ryo Ogawa <negibokken@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.1"
+  }
+}
