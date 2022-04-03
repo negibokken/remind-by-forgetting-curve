@@ -18,6 +18,7 @@ const octokit = new Octokit({auth: token});
         parseStringAsArray(core.getInput('remind-days')), defaultRemindDays);
     const time = dayjs().format('YYYY-MM-DD')
     const message = core.getInput('message') || defaultMessage;
+    const needToMention = core.getInput('mention') || false;
     const labelsSet = new Set(labels);
     const issues = await octokit.paginate(
         octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
@@ -41,14 +42,16 @@ const octokit = new Octokit({auth: token});
           const n = repoparts.length;
           const ownerName = repoparts[n - 2];
           const repoName = repoparts[n - 1];
-          const assignee =
-              issue.assignee ? `@${issue.assignee} ` : `@${issue.user.login} `;
+          const assignee = needToMention ?
+              (issue.assignee ? `@${issue.assignee} ` :
+                                `@${issue.user.login} `) :
+              '';
           console.log(repoparts, ownerName, repoName, assignee);
           await octokit.rest.issues.createComment({
             owner: ownerName,
             repo: repoName,
             issue_number: issue.number,
-            body: `${assignee}It's time to remind this issue`,
+            body: `${assignee}${message}`,
           });
         }
       }

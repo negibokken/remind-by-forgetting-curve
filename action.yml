@@ -17,6 +17,10 @@ inputs:
     description: 'message to remind the issue'
     required: false
     default: "It\' s time to remember this issue!"
+  mention:
+    description: 'need to mention or not'
+    required: false
+    default: false
 runs:
   using: 'node16'
   main: 'index.js'
