@@ -39,8 +39,8 @@ const octokit = new Octokit({auth: token});
         if (d === time) {
           const repoparts = (issue.repository_url.split('/'));
           const n = repoparts.length;
-          const ownerName = repoparts[n - 1];
-          const repoName = repoparts[n - 2];
+          const ownerName = repoparts[n - 2];
+          const repoName = repoparts[n - 1];
           const assignee =
               issue.assignee ? `@${issue.assignee} ` : `@${issue.user.login} `;
           console.log(repoparts, ownerName, repoName, assignee);
