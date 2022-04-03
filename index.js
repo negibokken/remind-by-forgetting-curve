@@ -44,8 +44,8 @@ const octokit = new Octokit({auth: token});
           const assignee =
               issue.assignee ? `@${issue.assignee} ` : `@${issue.user.login} `;
           await octokit.rest.issues.createComment({
-            ownerName,
-            repoName,
+            owner: ownerName,
+            repo: repoName,
             issue_number: issue.number,
             body: `${assignee}It's time to remind this issue`,
           });
