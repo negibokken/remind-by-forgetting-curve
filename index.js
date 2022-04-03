@@ -39,10 +39,10 @@ const octokit = new Octokit({auth: token});
         if (d === time) {
           const repoparts = (repo.split('/'));
           const n = repoparts.length;
-          const ownerName = (repoparts[n - 1]);
-            const repoName = repoparts[n - 2]);
-            const assignee = issue.assignee ?
-                `@${issue.assignee} ` || `@${issue.user.login} `;
+          const ownerName = repoparts[n - 1];
+          const repoName = repoparts[n - 2];
+          const assignee =
+              issue.assignee ? `@${issue.assignee} ` || `@${issue.user.login} `;
 await octokit.rest.issues.createComment(
                     {ownerName, repoName, issue.number
               `It's time to remind this issue`,
