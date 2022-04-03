@@ -22,7 +22,7 @@ const octokit = new Octokit({auth: token});
         octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
     const targetIssues = issues.filter((i) => {
       for (const label of i.labels) {
-        if (labels.has(label.name)) {
+        if (labelsSet.has(label.name)) {
           return true
         }
       }
