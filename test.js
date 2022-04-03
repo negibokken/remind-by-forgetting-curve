@@ -1,11 +1,6 @@
-const labels = new Set(['need-to-remind']);
-const issues = [{labels: [{name: ''}]}, {labels: [{name: 'need-to-remind'}]}];
-const targetIssues = issues.filter((i) => {
-  for (const label of i.labels) {
-    if (labels.has(label.name)) {
-      return true
-    }
-  }
-  return false;
-});
-console.log(targetIssues)
+const repo = 'https://negibokken.com/bokken'
+const repoparts = (repo.split('/'))
+const n = repoparts.length
+console.log(repoparts[n - 1])
+console.log(repoparts[n - 2])
+
