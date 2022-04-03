@@ -37,13 +37,14 @@ const octokit = new Octokit({auth: token});
       for (const remindDay of remindDays) {
         const d =
             dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
+        console.log(d, time)
         if (d === time) {
           console.log('Remind target issue')
         }
       }
     }
 
-    console.log(targetIssues)
+    // console.log(targetIssues)
     console.log(`${time} ${message}`)
     console.log(`${labels}`)
     console.log(`${remindDays}`)
