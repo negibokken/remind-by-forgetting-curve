@@ -31,17 +31,15 @@ const octokit = new Octokit({auth: token});
       return false;
     });
 
-    for
-      async(const issue of targetIssues) {
-      for
-        async(const remindDay of remindDays) {
-          const d =
-              dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
-          console.log(d, time)
-          if (d === time) {
-            const repoparts = (repo.split('/'));
-            const n = repoparts.length;
-            const ownerName = (repoparts[n - 1]);
+    for await (const issue of targetIssues) {
+      for await (const remindDay of remindDays) {
+        const d =
+            dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
+        console.log(d, time)
+        if (d === time) {
+          const repoparts = (repo.split('/'));
+          const n = repoparts.length;
+          const ownerName = (repoparts[n - 1]);
             const repoName = repoparts[n - 2]);
             const assignee = issue.assignee ?
                 `@${issue.assignee} ` || `@${issue.user.login} `;
@@ -49,9 +47,9 @@ await octokit.rest.issues.createComment(
                     {ownerName, repoName, issue.number
               `It's time to remind this issue`,
             });
-          }
         }
       }
+    }
 
     // console.log(targetIssues)
     console.log(`${time} ${message}`)
