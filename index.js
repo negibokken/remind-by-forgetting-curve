@@ -27,7 +27,7 @@ const octokit = new Octokit({auth: token});
         }
       }
       return false;
-    )
+    });
     console.log(targetIssues)
     console.log(`${time} ${message}`)
     console.log(`${labels}`)
@@ -39,6 +39,6 @@ const octokit = new Octokit({auth: token});
       console.log(a)
     }
   } catch (error) {
-      core.setFailed(error.message);
+    core.setFailed(error.message);
   }
-  })()
+})()
