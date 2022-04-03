@@ -17,12 +17,17 @@ const octokit = new Octokit({auth: token});
         parseStringAsArray(core.getInput('remind-days')), defaultRemindDays);
     const time = (new Date()).toTimeString();
     const message = core.getInput('message') || defaultMessage;
+    const labelsSet = new Set(labels);
     const issues = await octokit.paginate(
         octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
-    for (const a of issues) {
-      console.log(JSON.stringify(a))
-    }
-    const targetIssues = issues.filter((i) => {return labels.includes(i.name)})
+    const targetIssues = issues.filter((i) => {
+      for (const label of i.labels) {
+        if (labels.has(label.name)) {
+          return true
+        }
+      }
+      return false;
+    )
     console.log(targetIssues)
     console.log(`${time} ${message}`)
     console.log(`${labels}`)
@@ -34,6 +39,6 @@ const octokit = new Octokit({auth: token});
       console.log(a)
     }
   } catch (error) {
-    core.setFailed(error.message);
+      core.setFailed(error.message);
   }
-})()
+  })()
