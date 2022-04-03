@@ -6,7 +6,8 @@ const {parseStringAsArray, fillByDefault} = require('./lib/array-utils')
 const defaultRemindDays = [1, 3, 10, 30, 90];
 const defaultMessage = 'It\' s time to remember this issue!';
 
-const octokit = new github.getOctokit(core.getInput('repo-token'));
+const token = core.getInput('repo-token', {required: true})
+const octokit = new Octokit({auth: token});
 
 (async () => {
   try {
@@ -18,7 +19,8 @@ const octokit = new github.getOctokit(core.getInput('repo-token'));
     const message = core.getInput('message') || defaultMessage;
     const issues = await octokit.paginate(
         octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
-    console.log(issues)
+    const targetIssues = issues.filter((i) => {return labels.includes(i.name)})
+    console.log(targetIssues)
     console.log(`${time} ${message}`)
     console.log(`${labels}`)
     console.log(`${remindDays}`)
