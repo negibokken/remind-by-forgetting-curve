@@ -12,7 +12,8 @@ const octokit = new Octokit({auth: token});
 
 (async () => {
   try {
-    console.log('github.event', github.event)
+    console.log('github.event', context)
+    console.log('github.event', github)
     const labels = fillByDefault(
         parseStringAsArray(core.getInput('labels')), ['need-to-remind']);
     const remindDays = fillByDefault(
@@ -47,7 +48,6 @@ const octokit = new Octokit({auth: token});
               (issue.assignee ? `@${issue.assignee} ` :
                                 `@${issue.user.login} `) :
               '';
-          console.log(repoparts, ownerName, repoName, assignee);
           await octokit.rest.issues.createComment({
             owner: ownerName,
             repo: repoName,
