@@ -3,7 +3,7 @@ description: 'Remind by forgetting curve'
 inputs:
   repo-token:
     description: 'repo token'
-    required:tru
+    required: true
     default: ''
   labels:
     description: 'labels to remind'
