@@ -6,7 +6,8 @@ const defaultRemindDays = [1, 3, 10, 30, 90];
 const defaultMessage = 'It\' s time to remember this issue!';
 
 try {
-  const labels = fillByDefault(core.getInput('labels'), ['need-to-remind']);
+  const labels = fillByDefault(
+      parseStringAsArray(core.getInput('labels')), ['need-to-remind']);
   const remindDays = fillByDefault(
       parseStringAsArray(core.getInput('remind-days')), defaultRemindDays);
   const time = (new Date()).toTimeString();
