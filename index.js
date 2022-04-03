@@ -17,6 +17,7 @@ try {
   const message = core.getInput('message') || defaultMessage;
   const issues = await octokit.paginate(
       octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
+  console.log(issues)
   console.log(`${time} ${message}`)
   console.log(`${labels}`)
   console.log(`${remindDays}`)
