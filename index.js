@@ -12,17 +12,21 @@ const octokit = new Octokit({auth: token});
 
 (async () => {
   try {
-    console.log('github.event', github.repositoryUrl)
+    // Process inputs
     const labels = fillByDefault(
         parseStringAsArray(core.getInput('labels')), ['need-to-remind']);
     const remindDays = fillByDefault(
         parseStringAsArray(core.getInput('remind-days')), defaultRemindDays);
-    const time = dayjs().format('YYYY-MM-DD')
     const message = core.getInput('message') || defaultMessage;
     const needToMention = core.getInput('mention') || false;
+    const owner = core.getInput('owner') || '';
+    const repo = core.getInput('repository') || '';
+
+    const time = dayjs().format('YYYY-MM-DD')
+
     const labelsSet = new Set(labels);
-    const issues = await octokit.paginate(
-        octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
+    const issues =
+        await octokit.paginate(octokit.rest.issues.listForRepo, {owner, repo})
 
     const targetIssues = issues.filter((i) => {
       for (const label of i.labels) {
@@ -39,17 +43,13 @@ const octokit = new Octokit({auth: token});
         const d =
             dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
         if (d === time) {
-          const repoparts = (issue.repository_url.split('/'));
-          const n = repoparts.length;
-          const ownerName = repoparts[n - 2];
-          const repoName = repoparts[n - 1];
           const assignee = needToMention ?
               (issue.assignee ? `@${issue.assignee} ` :
                                 `@${issue.user.login} `) :
               '';
           await octokit.rest.issues.createComment({
-            owner: ownerName,
-            repo: repoName,
+            owner,
+            repo,
             issue_number: issue.number,
             body: `${assignee}${message}`,
           });

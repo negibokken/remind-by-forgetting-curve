@@ -5,6 +5,12 @@ inputs:
     description: 'repo token'
     required: true
     default: ''
+  repo:
+    description: 'Target repository name'
+    required: true
+  owner:
+    description: 'Target owner name of repository'
+    required: true
   labels:
     description: 'labels to remind'
     required: false
