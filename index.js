@@ -12,6 +12,7 @@ const octokit = new Octokit({auth: token});
 
 (async () => {
   try {
+    console.log('github.event', github.event)
     const labels = fillByDefault(
         parseStringAsArray(core.getInput('labels')), ['need-to-remind']);
     const remindDays = fillByDefault(
@@ -33,10 +34,10 @@ const octokit = new Octokit({auth: token});
     });
 
     for await (const issue of targetIssues) {
+      console.log(`[${time}] ${issue.number} is created at ${issue.created_at}`)
       for await (const remindDay of remindDays) {
         const d =
             dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
-        console.log(d, time)
         if (d === time) {
           const repoparts = (issue.repository_url.split('/'));
           const n = repoparts.length;
@@ -56,11 +57,6 @@ const octokit = new Octokit({auth: token});
         }
       }
     }
-
-    // console.log(targetIssues)
-    console.log(`${time} ${message}`)
-    console.log(`${labels}`)
-    console.log(`${remindDays}`)
   } catch (error) {
     core.setFailed(error.message);
   }
