@@ -19,6 +19,9 @@ const octokit = new Octokit({auth: token});
     const message = core.getInput('message') || defaultMessage;
     const issues = await octokit.paginate(
         octokit.rest.issues.listForRepo, {owner: 'negibokken', repo: 'bokken'})
+    for (const a of issues) {
+      console.log(JSON.stringify(a))
+    }
     const targetIssues = issues.filter((i) => {return labels.includes(i.name)})
     console.log(targetIssues)
     console.log(`${time} ${message}`)
