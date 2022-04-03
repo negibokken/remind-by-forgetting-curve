@@ -43,6 +43,7 @@ const octokit = new Octokit({auth: token});
           const repoName = repoparts[n - 2];
           const assignee =
               issue.assignee ? `@${issue.assignee} ` : `@${issue.user.login} `;
+          console.log(repoparts, ownerName, repoName, assignee);
           await octokit.rest.issues.createComment({
             owner: ownerName,
             repo: repoName,
@@ -57,12 +58,6 @@ const octokit = new Octokit({auth: token});
     console.log(`${time} ${message}`)
     console.log(`${labels}`)
     console.log(`${remindDays}`)
-    for (const a of labels) {
-      console.log(a)
-    }
-    for (const a of remindDays) {
-      console.log(a)
-    }
   } catch (error) {
     core.setFailed(error.message);
   }
