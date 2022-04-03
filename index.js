@@ -12,7 +12,7 @@ const octokit = new Octokit({auth: token});
 
 (async () => {
   try {
-    console.log('github.event', github)
+    console.log('github.event', github.repositoryUrl)
     const labels = fillByDefault(
         parseStringAsArray(core.getInput('labels')), ['need-to-remind']);
     const remindDays = fillByDefault(
