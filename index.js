@@ -12,7 +12,6 @@ const octokit = new Octokit({auth: token});
 
 (async () => {
   try {
-    console.log('github.event', context)
     console.log('github.event', github)
     const labels = fillByDefault(
         parseStringAsArray(core.getInput('labels')), ['need-to-remind']);
