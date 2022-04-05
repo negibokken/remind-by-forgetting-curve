@@ -44,7 +44,7 @@ const octokit = new Octokit({auth: token});
             dayjs(issue.created_at).add(remindDay, 'day').format('YYYY-MM-DD')
         if (d === time) {
           const assignee = needToMention ?
-              (issue.assignee ? `@${issue.assignee} ` :
+              (issue.assignee ? `@${issue.assignee.login} ` :
                                 `@${issue.user.login} `) :
               '';
           await octokit.rest.issues.createComment({
